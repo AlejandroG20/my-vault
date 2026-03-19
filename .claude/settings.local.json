@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(\"c:/Proyectos Full Stack/my-vault/auth.config.ts\")"
+    ]
+  }
+}
