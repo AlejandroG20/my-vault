@@ -1,4 +1,3 @@
-// Usamos require para evitar problemas de exports en Prisma 7 con TypeScript estático
 const { PrismaClient } = require("@prisma/client")
 
 type PrismaClientType = InstanceType<typeof PrismaClient>
@@ -9,11 +8,9 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClientType | undefined
 }
 
-// Crea el cliente con la URL de conexión directamente, sin adapter externo
+// Crea el cliente sin opciones — la URL la lee del .env a través de prisma.config.ts
 function createPrismaClient(): PrismaClientType {
-  return new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  })
+  return new PrismaClient()
 }
 
 // Reutiliza la instancia existente o crea una nueva
