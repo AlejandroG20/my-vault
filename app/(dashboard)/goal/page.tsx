@@ -21,7 +21,7 @@ export default async function GoalPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-semibold text-primary-900">
+        <h2 className="text-xl font-semibold font-heading text-primary-900">
           Objetivo de ahorro
         </h2>
         <p className="text-sm text-primary-400 mt-1">
@@ -38,7 +38,7 @@ export default async function GoalPage() {
                 <Target size={18} className="text-accent-600" />
               </div>
               <div>
-                <h3 className="text-base font-semibold text-primary-900">
+                <h3 className="text-base font-semibold font-heading text-primary-900">
                   {goal.name}
                 </h3>
                 <p className="text-xs text-primary-400">Objetivo activo</p>
@@ -61,7 +61,7 @@ export default async function GoalPage() {
             </div>
 
             {/* Tres métricas: balance ahorrado, meta total y cantidad restante */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="bg-primary-50 rounded-lg p-3 text-center">
                 <p className="text-xs text-primary-400 mb-1">Ahorrado</p>
                 <p className="text-sm font-semibold text-success-600">

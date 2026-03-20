@@ -36,7 +36,7 @@ export default function SubscriptionList({
       {subscriptions.map((sub) => (
         <div
           key={sub.id}
-          className="flex items-center justify-between px-5 py-4"
+          className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 gap-2"
         >
           <div className="flex items-center gap-3">
             {/* Icono con fondo y color más apagado cuando la suscripción está pausada */}
@@ -64,7 +64,7 @@ export default function SubscriptionList({
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             {/* Importe también apagado cuando la suscripción está pausada */}
             <p
               className={`text-sm font-semibold ${sub.active ? "text-primary-900" : "text-primary-400"}`}

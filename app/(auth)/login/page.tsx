@@ -39,7 +39,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-200 rounded-full opacity-30 blur-3xl" />
       </div>
 
-      <div className="relative w-full max-w-sm">
+      <div className="relative w-full max-w-sm px-4 sm:px-0">
         {/* Header fuera del card */}
         <div className="mb-8 text-center">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-accent-600 mb-4 shadow-lg shadow-accent-200">
@@ -57,7 +57,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               />
             </svg>
           </div>
-          <h1 className="text-2xl font-semibold text-primary-900">My Vault</h1>
+          <h1 className="text-2xl font-semibold font-heading text-primary-900">My Vault</h1>
           <p className="text-sm text-primary-400 mt-1">Accede a tu cuenta</p>
         </div>
 

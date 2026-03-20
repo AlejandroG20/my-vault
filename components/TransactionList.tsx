@@ -32,7 +32,7 @@ export default function TransactionList({
       {transactions.map((transaction) => (
         <div
           key={transaction.id}
-          className="flex items-center justify-between px-5 py-4"
+          className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 gap-2"
         >
           <div className="flex items-center gap-3">
             {/* Icono con fondo tintado según si es ingreso (teal) o gasto (rose) */}
@@ -61,7 +61,7 @@ export default function TransactionList({
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             <div className="text-right">
               {/* Importe con signo + / - y color según el tipo */}
               <p

@@ -44,7 +44,7 @@ export default function StatCard({
         </div>
       </div>
       {/* Importe formateado en euros con color según la variante */}
-      <p className={`text-2xl font-semibold ${colors[variant]}`}>
+      <p className={`text-2xl font-semibold font-heading ${colors[variant]}`}>
         {amount.toLocaleString("es-ES", {
           style: "currency",
           currency: "EUR",

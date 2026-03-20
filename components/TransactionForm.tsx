@@ -20,12 +20,12 @@ export default function TransactionForm() {
 
   return (
     <div className="bg-white rounded-xl border border-primary-100 p-5">
-      <h3 className="text-sm font-medium text-primary-900 mb-4">
+      <h3 className="text-sm font-medium font-heading text-primary-900 mb-4">
         Nueva transacción
       </h3>
 
       <form ref={formRef} action={handleSubmit} className="flex flex-col gap-3">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="flex flex-col gap-1">
             <label className="text-xs text-primary-500">Importe (€)</label>
             <input
@@ -45,7 +45,7 @@ export default function TransactionForm() {
             <select
               name="type"
               required
-              className="rounded-lg border border-primary-200 px-3 py-2 text-sm text-primary-900 outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-100 transition-all bg-white"
+              className="rounded-lg border border-primary-200 px-3 py-2 text-sm text-primary-900 outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-100 transition-all bg-white cursor-pointer"
             >
               <option value="EXPENSE">Gasto</option>
               <option value="INCOME">Ingreso</option>
@@ -53,14 +53,14 @@ export default function TransactionForm() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* Categorías cargadas desde la constante centralizada CATEGORIES */}
           <div className="flex flex-col gap-1">
             <label className="text-xs text-primary-500">Categoría</label>
             <select
               name="category"
               required
-              className="rounded-lg border border-primary-200 px-3 py-2 text-sm text-primary-900 outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-100 transition-all bg-white"
+              className="rounded-lg border border-primary-200 px-3 py-2 text-sm text-primary-900 outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-100 transition-all bg-white cursor-pointer"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>

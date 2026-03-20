@@ -15,7 +15,7 @@ export default function GoalForm({ goal }: GoalFormProps) {
   return (
     <div className="bg-white rounded-xl border border-primary-100 p-5">
       {/* El título cambia según si estamos creando o editando */}
-      <h3 className="text-sm font-medium text-primary-900 mb-4">
+      <h3 className="text-sm font-medium font-heading text-primary-900 mb-4">
         {goal ? "Editar objetivo" : "Crear objetivo"}
       </h3>
 
@@ -32,7 +32,7 @@ export default function GoalForm({ goal }: GoalFormProps) {
             required
             defaultValue={goal?.name ?? ""}
             placeholder="Ej: Fondo de emergencia"
-            className="rounded-lg border border-primary-200 px-3 py-2 text-sm outline-none focus:border-primary-400 transition-colors"
+            className="rounded-lg border border-primary-200 px-3 py-2 text-sm text-primary-900 outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-100 transition-all"
           />
         </div>
 
@@ -48,7 +48,7 @@ export default function GoalForm({ goal }: GoalFormProps) {
             required
             defaultValue={goal?.amount ?? ""}
             placeholder="Ej: 3000"
-            className="rounded-lg border border-primary-200 px-3 py-2 text-sm outline-none focus:border-primary-400 transition-colors"
+            className="rounded-lg border border-primary-200 px-3 py-2 text-sm text-primary-900 outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-100 transition-all"
           />
         </div>
 

@@ -22,7 +22,7 @@ export default async function StatsPage() {
     <div className="flex flex-col gap-6">
       {/* Cabecera de la página */}
       <div>
-        <h2 className="text-xl font-semibold text-primary-900">Estadísticas</h2>
+        <h2 className="text-xl font-semibold font-heading text-primary-900">Estadísticas</h2>
         <p className="text-sm text-primary-400 mt-1">
           Visualiza tus hábitos financieros
         </p>
@@ -30,7 +30,7 @@ export default async function StatsPage() {
 
       {/* Gráfico de barras: ingresos vs gastos por mes (ocupa todo el ancho) */}
       <div className="bg-white rounded-xl border border-primary-100 p-5">
-        <h3 className="text-sm font-medium text-primary-900 mb-4">
+        <h3 className="text-sm font-medium font-heading text-primary-900 mb-4">
           Ingresos vs gastos por mes
         </h3>
         <MonthlyChart data={monthly} />
@@ -40,7 +40,7 @@ export default async function StatsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Gráfico de dona: distribución de gastos por categoría */}
         <div className="bg-white rounded-xl border border-primary-100 p-5">
-          <h3 className="text-sm font-medium text-primary-900 mb-4">
+          <h3 className="text-sm font-medium font-heading text-primary-900 mb-4">
             Gastos por categoría
           </h3>
           <CategoryChart data={categories} />
@@ -48,7 +48,7 @@ export default async function StatsPage() {
 
         {/* Gráfico de línea: evolución del saldo acumulado */}
         <div className="bg-white rounded-xl border border-primary-100 p-5">
-          <h3 className="text-sm font-medium text-primary-900 mb-4">
+          <h3 className="text-sm font-medium font-heading text-primary-900 mb-4">
             Balance acumulado
           </h3>
           <BalanceChart data={balance} />

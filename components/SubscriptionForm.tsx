@@ -17,12 +17,12 @@ export default function SubscriptionForm() {
 
   return (
     <div className="bg-white rounded-xl border border-primary-100 p-5">
-      <h3 className="text-sm font-medium text-primary-900 mb-4">
+      <h3 className="text-sm font-medium font-heading text-primary-900 mb-4">
         Nueva suscripción
       </h3>
 
       <form ref={formRef} action={handleSubmit} className="flex flex-col gap-3">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="flex flex-col gap-1">
             <label className="text-xs text-primary-500">Nombre</label>
             <input
@@ -48,7 +48,7 @@ export default function SubscriptionForm() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* Día del mes en que se cobra — limitado a 28 para evitar problemas con febrero */}
           <div className="flex flex-col gap-1">
             <label className="text-xs text-primary-500">Día del mes</label>
