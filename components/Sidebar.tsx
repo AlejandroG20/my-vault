@@ -12,6 +12,7 @@ import {
   LogOut,
 } from "lucide-react";
 
+// Lista de rutas de la navegación principal con su icono asociado
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Transacciones", href: "/transactions", icon: ArrowLeftRight },
@@ -21,14 +22,17 @@ const navigation = [
 ];
 
 export default function Sidebar() {
+  // Obtenemos la ruta actual para marcar el ítem activo
   const pathname = usePathname();
 
   return (
-    <aside className="w-56 min-h-screen bg-white border-r border-gray-100 flex flex-col">
-      <div className="px-6 py-5 border-b border-gray-100">
-        <h1 className="text-lg font-semibold text-gray-900">My Vault</h1>
+    <aside className="w-56 min-h-screen bg-white border-r border-primary-100 flex flex-col">
+      {/* Logo / nombre de la app */}
+      <div className="px-6 py-5 border-b border-primary-100">
+        <h1 className="text-lg font-semibold text-primary-900">My Vault</h1>
       </div>
 
+      {/* Ítems de navegación — se resalta el que coincide con la ruta actual */}
       <nav className="flex-1 px-3 py-4 flex flex-col gap-1">
         {navigation.map((item) => {
           const Icon = item.icon;
@@ -40,8 +44,8 @@ export default function Sidebar() {
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                 isActive
-                  ? "bg-gray-900 text-white"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  ? "bg-accent-600 text-white"
+                  : "text-primary-500 hover:bg-primary-50 hover:text-primary-900"
               }`}
             >
               <Icon size={16} />
@@ -51,10 +55,11 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="px-3 py-4 border-t border-gray-100">
+      {/* Botón de cierre de sesión — redirige al login tras cerrar */}
+      <div className="px-3 py-4 border-t border-primary-100">
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors w-full"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-primary-500 hover:bg-primary-50 hover:text-primary-900 transition-colors w-full"
         >
           <LogOut size={16} />
           Cerrar sesión
