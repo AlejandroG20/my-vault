@@ -42,7 +42,7 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
                 isActive
                   ? "bg-accent-600 text-white"
                   : "text-primary-500 hover:bg-primary-50 hover:text-primary-900"
@@ -59,7 +59,7 @@ export default function Sidebar() {
       <div className="px-3 py-4 border-t border-primary-100">
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-primary-500 hover:bg-primary-50 hover:text-primary-900 transition-colors w-full"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-primary-500 hover:bg-primary-50 hover:text-primary-900 transition-colors w-full cursor-pointer"
         >
           <LogOut size={16} />
           Cerrar sesión

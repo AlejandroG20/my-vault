@@ -97,7 +97,7 @@ export default function TransactionForm() {
 
         <button
           type="submit"
-          className="flex items-center justify-center gap-2 w-full rounded-lg bg-accent-600 text-white py-2 text-sm font-medium hover:bg-accent-700 active:scale-[0.98] transition-all mt-1"
+          className="flex items-center justify-center gap-2 w-full rounded-lg bg-accent-600 text-white py-2 text-sm font-medium hover:bg-accent-700 active:scale-[0.98] transition-all mt-1 cursor-pointer"
         >
           <PlusCircle size={15} />
           Añadir transacción

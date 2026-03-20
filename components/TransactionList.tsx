@@ -86,7 +86,7 @@ export default function TransactionList({
             <form action={deleteTransaction.bind(null, transaction.id)}>
               <button
                 type="submit"
-                className="w-7 h-7 rounded-lg flex items-center justify-center text-primary-300 hover:text-danger-500 hover:bg-danger-50 transition-colors"
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-primary-300 hover:text-danger-500 hover:bg-danger-50 transition-colors cursor-pointer"
               >
                 <Trash2 size={13} />
               </button>
