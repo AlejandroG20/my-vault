@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
-import type { Transaction } from "@prisma/client"
+import type { TransactionItem } from "@/types/prisma"
 
 export async function getDashboardData() {
     // Verificamos que haya sesión activa; si no, no devolvemos nada
@@ -17,7 +17,7 @@ export async function getDashboardData() {
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
 
     // Obtenemos todas las transacciones del usuario en el mes actual
-    const transactions = await prisma.transaction.findMany({
+    const transactions: TransactionItem[] = await prisma.transaction.findMany({
         where: {
             userId,
             date: {
@@ -34,11 +34,11 @@ export async function getDashboardData() {
 
     // Sumamos los ingresos y gastos por separado filtrando por tipo
     const totalIncome = transactions
-        .filter((t: Transaction) => t.type === "INCOME")
+        .filter((t) => t.type === "INCOME")
         .reduce((sum, t) => sum + t.amount, 0)
 
     const totalExpense = transactions
-        .filter((t: Transaction) => t.type === "EXPENSE")
+        .filter((t) => t.type === "EXPENSE")
         .reduce((sum, t) => sum + t.amount, 0)
 
     // El balance es la diferencia entre ingresos y gastos del mes

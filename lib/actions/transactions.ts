@@ -3,10 +3,10 @@
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
-import type { Transaction } from "@prisma/client"
+import type { TransactionItem } from "@/types/prisma"
 
 // Devuelve todas las transacciones del usuario ordenadas de más reciente a más antigua
-export async function getTransactions(): Promise<Transaction[]> {
+export async function getTransactions(): Promise<TransactionItem[]> {
     const session = await auth()
     if (!session?.user?.id) return []
 

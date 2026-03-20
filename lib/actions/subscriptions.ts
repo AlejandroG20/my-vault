@@ -3,10 +3,10 @@
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
-import type { Subscription } from "@prisma/client"
+import type { SubscriptionItem } from "@/types/prisma"
 
 // Devuelve todas las suscripciones del usuario ordenadas por fecha de creación descendente
-export async function getSubscriptions(): Promise<Subscription[]> {
+export async function getSubscriptions(): Promise<SubscriptionItem[]> {
     const session = await auth()
     if (!session?.user?.id) return []
 
@@ -24,7 +24,7 @@ export async function createSubscription(formData: FormData) {
     // Extraemos y convertimos cada campo al tipo correcto
     const name = formData.get("name") as string
     const amount = parseFloat(formData.get("amount") as string)
-    const dayOfMonth = parseInt(formData.get("dayOfMonth") as string) // Día del mes en que se cobra
+    const dayOfMonth = parseInt(formData.get("dayOfMonth") as string)
     const category = formData.get("category") as string
 
     // Validación mínima: todos los campos son obligatorios
