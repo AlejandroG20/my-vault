@@ -28,7 +28,7 @@ export default function Sidebar() {
   return (
     <>
       {/* ── Sidebar desktop (md+) ── */}
-      <aside className="hidden md:flex w-56 min-h-screen bg-white border-r border-primary-100 flex-col shrink-0">
+      <aside className="hidden md:flex w-56 h-screen sticky top-0 bg-white border-r border-primary-100 flex-col shrink-0 overflow-hidden">
         {/* Logo / nombre de la app */}
         <div className="px-6 py-5 border-b border-primary-100">
           <h1 className="text-lg font-semibold font-heading text-primary-900">
