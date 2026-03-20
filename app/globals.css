@@ -1,1 +1,72 @@
-@import "tailwindcss"
+@import "tailwindcss";
+
+@theme {
+    /* ─── FUENTES ─────────────────────────────────────────── */
+    --font-heading: "Plus Jakarta Sans", sans-serif;
+    --font-body: "Inter", sans-serif;
+
+    /* ─── PRIMARY: slate (base fría) ──────────────────────── */
+    --color-primary-50: #f8fafc;
+    --color-primary-100: #f1f5f9;
+    --color-primary-200: #e2e8f0;
+    --color-primary-300: #cbd5e1;
+    --color-primary-400: #94a3b8;
+    --color-primary-500: #64748b;
+    --color-primary-600: #475569;
+    --color-primary-700: #334155;
+    --color-primary-800: #1e293b;
+    --color-primary-900: #0f172a;
+    --color-primary-950: #020617;
+
+    /* ─── ACCENT: violet (acento principal) ───────────────── */
+    --color-accent-50: #f5f3ff;
+    --color-accent-100: #ede9fe;
+    --color-accent-200: #ddd6fe;
+    --color-accent-300: #c4b5fd;
+    --color-accent-400: #a78bfa;
+    --color-accent-500: #8b5cf6;
+    --color-accent-600: #7c3aed;
+    --color-accent-700: #6d28d9;
+    --color-accent-800: #5b21b6;
+    --color-accent-900: #4c1d95;
+    --color-accent-950: #2e1065;
+
+    /* ─── SUCCESS: teal (ingresos, balance positivo) ───────── */
+    --color-success-50: #f0fdfa;
+    --color-success-100: #ccfbf1;
+    --color-success-200: #99f6e4;
+    --color-success-300: #5eead4;
+    --color-success-400: #2dd4bf;
+    --color-success-500: #14b8a6;
+    --color-success-600: #0d9488;
+    --color-success-700: #0f766e;
+    --color-success-800: #115e59;
+    --color-success-900: #134e4a;
+    --color-success-950: #042f2e;
+
+    /* ─── DANGER: rose (gastos, alertas) ──────────────────── */
+    --color-danger-50: #fff1f2;
+    --color-danger-100: #ffe4e6;
+    --color-danger-200: #fecdd3;
+    --color-danger-300: #fda4af;
+    --color-danger-400: #fb7185;
+    --color-danger-500: #f43f5e;
+    --color-danger-600: #e11d48;
+    --color-danger-700: #be123c;
+    --color-danger-800: #9f1239;
+    --color-danger-900: #881337;
+    --color-danger-950: #4c0519;
+
+    /* ─── WARNING: amber (suscripciones, avisos) ───────────── */
+    --color-warning-50: #fffbeb;
+    --color-warning-100: #fef3c7;
+    --color-warning-200: #fde68a;
+    --color-warning-300: #fcd34d;
+    --color-warning-400: #fbbf24;
+    --color-warning-500: #f59e0b;
+    --color-warning-600: #d97706;
+    --color-warning-700: #b45309;
+    --color-warning-800: #92400e;
+    --color-warning-900: #78350f;
+    --color-warning-950: #451a03;
+}
