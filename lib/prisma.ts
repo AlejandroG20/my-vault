@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from "@prisma/client/edge"
 import { PrismaPg } from "@prisma/adapter-pg"
 import { Pool } from "pg"
 
@@ -12,7 +12,6 @@ const globalForPrisma = globalThis as unknown as {
 function createPrismaClient() {
   const pool = new Pool({ connectionString: process.env.DATABASE_URL })
   // "as any" resuelve el conflicto estructural entre dos versiones de @types/pg
-  // (la global y la que bundlea @prisma/adapter-pg internamente)
   const adapter = new PrismaPg(pool as any)
   return new PrismaClient({ adapter })
 }
