@@ -1,6 +1,6 @@
 import { getSubscriptions } from "@/lib/actions/subscriptions";
-import SubscriptionForm from "@/components/SubscriptionForm";
-import SubscriptionList from "@/components/SubscriptionList";
+import SubscriptionForm from "@/components/sections/SubscriptionForm";
+import SubscriptionList from "@/components/sections/SubscriptionList";
 
 export default async function SubscriptionsPage() {
   // Cargamos todas las suscripciones del usuario desde el servidor

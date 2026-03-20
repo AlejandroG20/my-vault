@@ -1,6 +1,6 @@
 import { getGoal } from "@/lib/actions/goal";
 import { getDashboardData } from "@/lib/actions/dashboard";
-import GoalForm from "@/components/GoalForm";
+import GoalForm from "@/components/sections/GoalForm";
 import { Target } from "lucide-react";
 
 export default async function GoalPage() {
