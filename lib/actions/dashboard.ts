@@ -2,6 +2,8 @@
 
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
+import type { Transaction } from "@prisma/client"
+
 export async function getDashboardData() {
     // Verificamos que haya sesión activa; si no, no devolvemos nada
     const session = await auth()
@@ -32,11 +34,11 @@ export async function getDashboardData() {
 
     // Sumamos los ingresos y gastos por separado filtrando por tipo
     const totalIncome = transactions
-        .filter((t) => t.type === "INCOME")
+        .filter((t: Transaction) => t.type === "INCOME")
         .reduce((sum, t) => sum + t.amount, 0)
 
     const totalExpense = transactions
-        .filter((t) => t.type === "EXPENSE")
+        .filter((t: Transaction) => t.type === "EXPENSE")
         .reduce((sum, t) => sum + t.amount, 0)
 
     // El balance es la diferencia entre ingresos y gastos del mes
