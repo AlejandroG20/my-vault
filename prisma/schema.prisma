@@ -11,7 +11,6 @@ model User {
   email         String         @unique
   password      String
   createdAt     DateTime       @default(now())
-
   transactions  Transaction[]
   subscriptions Subscription[]
   goal          Goal?
@@ -25,7 +24,6 @@ model Transaction {
   description String?
   date        DateTime @default(now())
   createdAt   DateTime @default(now())
-
   userId      String
   user        User     @relation(fields: [userId], references: [id])
 }
@@ -39,7 +37,6 @@ model Subscription {
   active      Boolean   @default(true)
   createdAt   DateTime  @default(now())
   lastCharged DateTime?
-
   userId      String
   user        User      @relation(fields: [userId], references: [id])
 }
@@ -49,7 +46,6 @@ model Goal {
   name      String
   amount    Float
   createdAt DateTime @default(now())
-
   userId    String   @unique
   user      User     @relation(fields: [userId], references: [id])
 }
