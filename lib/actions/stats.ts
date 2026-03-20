@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma"
 
 // Devuelve los ingresos y gastos agrupados por mes (ej: "mar. 25").
 // Se usa para mostrar gráficos de barras comparando ingresos vs gastos mensuales.
-export async function getMonthlyStats() {
+export async function getMonthlyStats(): Promise<{ month: string; income: number; expense: number }[]> {
     const session = await auth()
     if (!session?.user?.id) return []
 
@@ -48,7 +48,7 @@ export async function getMonthlyStats() {
 
 // Devuelve el total gastado por categoría, ordenado de mayor a menor.
 // Se usa para mostrar gráficos de torta o barras de distribución de gastos.
-export async function getCategoryStats() {
+export async function getCategoryStats(): Promise<{ name: string; value: number }[]> {
     const session = await auth()
     if (!session?.user?.id) return []
 
@@ -78,7 +78,7 @@ export async function getCategoryStats() {
 
 // Devuelve el balance acumulado a lo largo del tiempo, transacción por transacción.
 // Se usa para mostrar un gráfico de línea con la evolución del saldo.
-export async function getBalanceOverTime() {
+export async function getBalanceOverTime(): Promise<{ date: string; balance: number }[]> {
     const session = await auth()
     if (!session?.user?.id) return []
 

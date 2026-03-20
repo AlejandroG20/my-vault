@@ -3,9 +3,10 @@
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
+import type { Subscription } from "@prisma/client"
 
 // Devuelve todas las suscripciones del usuario ordenadas por fecha de creación descendente
-export async function getSubscriptions() {
+export async function getSubscriptions(): Promise<Subscription[]> {
     const session = await auth()
     if (!session?.user?.id) return []
 
