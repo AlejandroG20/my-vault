@@ -1,8 +1,12 @@
 import { getDashboardData } from "@/lib/actions/dashboard";
+import { processSubscriptions } from "@/lib/actions/processSubscriptions";
 import StatCard from "@/components/ui/StatCard";
 import { Wallet, TrendingUp, TrendingDown, Target } from "lucide-react";
 
 export default async function DashboardPage() {
+  // Procesa las suscripciones
+  await processSubscriptions();
+
   // Obtenemos los datos del mes actual desde el servidor
   const data = await getDashboardData();
 
