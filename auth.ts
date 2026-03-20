@@ -2,42 +2,57 @@ import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
-import { authConfig } from "@/auth.config"
 
-// Extiende la configuración base con el proveedor Credentials (usa bcrypt y prisma — solo Node.js)
 export const { handlers, signIn, signOut, auth } = NextAuth({
-    ...authConfig,
+    // Usamos JWT en lugar de sesiones en BD para no necesitar la tabla Session
+    session: {
+        strategy: "jwt",
+    },
+    // Redirigimos a nuestra propia página de login en vez de la de NextAuth
+    pages: {
+        signIn: "/login",
+    },
+    callbacks: {
+        // Al crear o renovar el token, guardamos el id del usuario dentro del JWT
+        jwt({ token, user }) {
+            if (user) token.id = user.id
+            return token
+        },
+        // Al construir la sesión, transferimos el id del token a session.user
+        session({ session, token }) {
+            if (token.id) session.user.id = token.id as string
+            return session
+        },
+    },
     providers: [
-        // Proveedor de autenticación con email y contraseña
         Credentials({
             name: "credentials",
             credentials: {
                 email: { label: "Email", type: "email" },
                 password: { label: "Password", type: "password" },
             },
-            // Verifica las credenciales y devuelve el usuario si son válidas
             async authorize(credentials) {
-                // Rechaza si faltan campos
-                if (!credentials?.email || !credentials?.password) {
-                    return null
-                }
+                // Rechazamos si faltan campos antes de consultar la BD
+                if (!credentials?.email || !credentials?.password) return null
 
-                // Busca el usuario por email en la base de datos
+                // Buscamos el usuario por email en la base de datos
                 const user = await prisma.user.findUnique({
                     where: { email: credentials.email as string },
                 })
 
+                // Si no existe el usuario, denegamos acceso
                 if (!user) return null
 
-                // Compara la contraseña recibida con el hash almacenado
+                // Comparamos la contraseña enviada con el hash almacenado
                 const passwordMatch = await bcrypt.compare(
                     credentials.password as string,
                     user.password
                 )
 
+                // Si la contraseña no coincide, denegamos acceso
                 if (!passwordMatch) return null
 
-                // Devuelve los datos del usuario que se guardarán en el JWT
+                // Devolvemos solo los campos necesarios para el token
                 return {
                     id: user.id,
                     email: user.email,
