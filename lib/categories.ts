@@ -12,7 +12,7 @@ import {
 } from "lucide-react"
 
 export const CATEGORIES = [
-    "Alimentación",
+    "Compra",
     "Transporte",
     "Ocio",
     "Juegos",
@@ -32,7 +32,7 @@ interface CategoryConfig {
 }
 
 export const CATEGORY_CONFIG: Record<string, CategoryConfig> = {
-    Alimentación: { icon: ShoppingCart, color: "text-green-500", bg: "bg-green-50" },
+    Compra: { icon: ShoppingCart, color: "text-green-500", bg: "bg-green-50" },
     Transporte: { icon: Car, color: "text-yellow-500", bg: "bg-yellow-50" },
     Ocio: { icon: Gamepad2, color: "text-purple-500", bg: "bg-purple-50" },
     Juegos: { icon: Sword, color: "text-indigo-500", bg: "bg-indigo-50" },
