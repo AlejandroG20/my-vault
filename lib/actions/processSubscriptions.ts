@@ -42,7 +42,7 @@ export async function processSubscriptions() {
             data: {
                 amount: sub.amount,
                 type: "EXPENSE",
-                category: sub.category,
+                category: "Suscripciones",
                 description: `Suscripción: ${sub.name}`,
                 date: chargeDay,
                 userId,
