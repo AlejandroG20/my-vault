@@ -28,9 +28,9 @@ export default async function DashboardPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-semibold font-heading text-primary-900">Dashboard</h2>
+        <h2 className="text-2xl font-bold font-heading text-primary-900">Dashboard</h2>
         {/* Mostramos el mes y año actual en español */}
-        <p className="text-sm text-primary-500 mt-1">
+        <p className="text-sm text-primary-400 mt-1">
           Resumen de{" "}
           {new Date().toLocaleString("es-ES", {
             month: "long",

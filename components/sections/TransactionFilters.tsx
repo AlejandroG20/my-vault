@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 import { useCallback } from "react"
-import { X } from "lucide-react"
+import { SlidersHorizontal, X } from "lucide-react"
 import { CATEGORIES } from "@/lib/categories"
 
 const TIPOS = [
@@ -23,7 +23,6 @@ export default function TransactionFilters() {
 
   const activeCount = [type, category, dateFrom, dateTo].filter(Boolean).length
 
-  // Construye una nueva URL con el parámetro actualizado, preservando el resto
   const setParam = useCallback(
     (key: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString())
@@ -41,76 +40,105 @@ export default function TransactionFilters() {
     router.push(pathname)
   }, [router, pathname])
 
+  const controlClass =
+    "text-sm border border-primary-200 bg-primary-50 rounded-lg px-3 py-2 text-primary-700 focus:outline-none focus:bg-white focus:border-accent-400 focus:ring-2 focus:ring-accent-100 transition-all cursor-pointer"
+
   return (
-    <div className="bg-white rounded-xl border border-primary-100 p-4 flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-primary-700">Filtros</p>
+    <div className="bg-white rounded-xl border border-primary-100 overflow-hidden shadow-sm">
+      {/* Header */}
+      <div className="flex items-center justify-between px-5 py-3 border-b border-primary-50 bg-primary-50/60">
+        <div className="flex items-center gap-2">
+          <SlidersHorizontal size={13} className="text-primary-400" />
+          <p className="text-xs font-semibold text-primary-500 uppercase tracking-wide">
+            Filtros
+          </p>
+          {activeCount > 0 && (
+            <span className="bg-accent-100 text-accent-700 text-xs font-semibold px-1.5 py-0.5 rounded-full">
+              {activeCount}
+            </span>
+          )}
+        </div>
+
         {activeCount > 0 && (
           <button
             onClick={clearAll}
             className="flex items-center gap-1 text-xs text-primary-400 hover:text-danger-500 transition-colors cursor-pointer"
           >
-            <X size={12} />
-            Limpiar ({activeCount})
+            <X size={11} />
+            Limpiar
           </button>
         )}
       </div>
 
-      {/* Tipo: pills */}
-      <div className="flex gap-2 flex-wrap">
-        {TIPOS.map((t) => (
-          <button
-            key={t.value}
-            onClick={() => setParam("type", t.value)}
-            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors cursor-pointer ${
-              type === t.value
-                ? "bg-primary-900 text-white"
-                : "bg-primary-50 text-primary-600 hover:bg-primary-100"
-            }`}
+      <div className="p-4 flex flex-col gap-4">
+        {/* Pills de tipo */}
+        <div className="flex gap-2 flex-wrap">
+          {TIPOS.map((t) => {
+            const isActive = type === t.value
+            const colorClass =
+              t.value === "INCOME"
+                ? isActive
+                  ? "bg-success-500 text-white border-success-500"
+                  : "bg-primary-50 text-primary-600 border-primary-200 hover:bg-success-50 hover:text-success-700 hover:border-success-200"
+                : t.value === "EXPENSE"
+                ? isActive
+                  ? "bg-danger-500 text-white border-danger-500"
+                  : "bg-primary-50 text-primary-600 border-primary-200 hover:bg-danger-50 hover:text-danger-600 hover:border-danger-200"
+                : isActive
+                ? "bg-accent-600 text-white border-accent-600"
+                : "bg-primary-50 text-primary-600 border-primary-200 hover:bg-accent-50 hover:text-accent-700 hover:border-accent-200"
+
+            return (
+              <button
+                key={t.value}
+                onClick={() => setParam("type", t.value)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${colorClass}`}
+              >
+                {t.label}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Categoría + fechas */}
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
+          <select
+            value={category}
+            onChange={(e) => setParam("category", e.target.value)}
+            className={`w-full sm:w-auto ${controlClass}`}
           >
-            {t.label}
-          </button>
-        ))}
-      </div>
+            <option value="">Todas las categorías</option>
+            {CATEGORIES.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
 
-      {/* Categoría + fechas en fila */}
-      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
-        {/* Selector de categoría */}
-        <select
-          value={category}
-          onChange={(e) => setParam("category", e.target.value)}
-          className="w-full sm:w-auto text-sm border border-primary-100 rounded-lg px-3 py-1.5 text-primary-700 bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 cursor-pointer"
-        >
-          <option value="">Todas las categorías</option>
-          {CATEGORIES.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
+          <div className="flex flex-wrap gap-3">
+            <div className="flex items-center gap-2 flex-1 sm:flex-none">
+              <label className="text-xs font-medium text-primary-400 whitespace-nowrap">
+                Desde
+              </label>
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setParam("dateFrom", e.target.value)}
+                className={`flex-1 sm:flex-none ${controlClass}`}
+              />
+            </div>
 
-        {/* Fechas: en fila en móvil también */}
-        <div className="flex flex-wrap gap-3">
-          {/* Fecha desde */}
-          <div className="flex items-center gap-1.5 flex-1 sm:flex-none">
-            <label className="text-xs text-primary-400 whitespace-nowrap">Desde</label>
-            <input
-              type="date"
-              value={dateFrom}
-              onChange={(e) => setParam("dateFrom", e.target.value)}
-              className="flex-1 sm:flex-none text-sm border border-primary-100 rounded-lg px-3 py-1.5 text-primary-700 bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 cursor-pointer"
-            />
-          </div>
-
-          {/* Fecha hasta */}
-          <div className="flex items-center gap-1.5 flex-1 sm:flex-none">
-            <label className="text-xs text-primary-400 whitespace-nowrap">Hasta</label>
-            <input
-              type="date"
-              value={dateTo}
-              onChange={(e) => setParam("dateTo", e.target.value)}
-              className="flex-1 sm:flex-none text-sm border border-primary-100 rounded-lg px-3 py-1.5 text-primary-700 bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 cursor-pointer"
-            />
+            <div className="flex items-center gap-2 flex-1 sm:flex-none">
+              <label className="text-xs font-medium text-primary-400 whitespace-nowrap">
+                Hasta
+              </label>
+              <input
+                type="date"
+                value={dateTo}
+                onChange={(e) => setParam("dateTo", e.target.value)}
+                className={`flex-1 sm:flex-none ${controlClass}`}
+              />
+            </div>
           </div>
         </div>
       </div>

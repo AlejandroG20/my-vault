@@ -8,7 +8,7 @@ export default async function BudgetsPage() {
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <h2 className="text-xl font-semibold font-heading text-primary-900">
+                <h2 className="text-2xl font-bold font-heading text-primary-900">
                     Presupuesto mensual
                 </h2>
                 <p className="text-sm text-primary-400 mt-1">

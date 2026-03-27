@@ -45,7 +45,7 @@ export default function UpcomingSubscriptions({
     <div className="bg-white rounded-xl border border-primary-100 p-5">
       <div className="flex items-center gap-2 mb-4">
         <Bell size={15} className="text-warning-500" />
-        <span className="text-sm font-medium text-primary-900">
+        <span className="text-sm font-semibold font-heading text-primary-800">
           Próximos cobros
         </span>
       </div>

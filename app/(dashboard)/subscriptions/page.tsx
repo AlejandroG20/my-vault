@@ -15,10 +15,10 @@ export default async function SubscriptionsPage() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <h2 className="text-xl font-semibold font-heading text-primary-900">
+          <h2 className="text-2xl font-bold font-heading text-primary-900">
             Suscripciones
           </h2>
-          <p className="text-sm text-primary-500 mt-1">
+          <p className="text-sm text-primary-400 mt-1">
             Gastos recurrentes mensuales
           </p>
         </div>

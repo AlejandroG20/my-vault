@@ -17,7 +17,7 @@ export default function SubscriptionForm() {
 
   return (
     <div className="bg-white rounded-xl border border-primary-100 p-5">
-      <h3 className="text-sm font-medium font-heading text-primary-900 mb-4">
+      <h3 className="text-sm font-semibold font-heading text-primary-800 mb-4">
         Nueva suscripción
       </h3>
 
