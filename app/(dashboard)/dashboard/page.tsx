@@ -1,6 +1,8 @@
 import { getDashboardData } from "@/lib/actions/dashboard";
 import { processSubscriptions } from "@/lib/actions/processSubscriptions";
+import { getUpcomingSubscriptions } from "@/lib/actions/subscriptions";
 import StatCard from "@/components/ui/StatCard";
+import UpcomingSubscriptions from "@/components/sections/UpcomingSubscriptions";
 import { Wallet, TrendingUp, TrendingDown, Target } from "lucide-react";
 
 export default async function DashboardPage() {
@@ -9,6 +11,7 @@ export default async function DashboardPage() {
 
   // Obtenemos los datos del mes actual desde el servidor
   const data = await getDashboardData();
+  const upcomingSubscriptions = await getUpcomingSubscriptions(7);
 
   console.log("Dashboard data:", data);
 
@@ -59,6 +62,9 @@ export default async function DashboardPage() {
           variant="expense"
         />
       </div>
+
+      {/* Aviso de suscripciones próximas a cobrar */}
+      <UpcomingSubscriptions subscriptions={upcomingSubscriptions} />
 
       {/* Barra de progreso del objetivo — solo se muestra si el usuario tiene uno */}
       {goal && (

@@ -59,6 +59,44 @@ export async function deleteSubscription(id: string) {
     revalidatePath("/subscriptions")
 }
 
+// Devuelve las suscripciones activas cuyo próximo cobro cae en los próximos `daysAhead` días
+export async function getUpcomingSubscriptions(daysAhead: number = 7) {
+    const session = await auth()
+    if (!session?.user?.id) return []
+
+    const subscriptions = await prisma.subscription.findMany({
+        where: { userId: session.user.id, active: true },
+    })
+
+    const today = new Date()
+    const todayDay = today.getDate()
+    const todayMonth = today.getMonth()
+    const todayYear = today.getFullYear()
+    const todayStart = new Date(todayYear, todayMonth, todayDay)
+
+    return subscriptions
+        .map((sub) => {
+            // Si ya cobró este mes o el día ya pasó, el próximo cobro es el mes siguiente
+            const chargedThisMonth =
+                sub.lastCharged !== null &&
+                new Date(sub.lastCharged).getMonth() === todayMonth &&
+                new Date(sub.lastCharged).getFullYear() === todayYear
+
+            const chargeDate =
+                chargedThisMonth || sub.dayOfMonth <= todayDay
+                    ? new Date(todayYear, todayMonth + 1, sub.dayOfMonth)
+                    : new Date(todayYear, todayMonth, sub.dayOfMonth)
+
+            const daysUntil = Math.round(
+                (chargeDate.getTime() - todayStart.getTime()) / (1000 * 60 * 60 * 24)
+            )
+
+            return { ...sub, daysUntil, chargeDate }
+        })
+        .filter((sub) => sub.daysUntil >= 0 && sub.daysUntil <= daysAhead)
+        .sort((a, b) => a.daysUntil - b.daysUntil)
+}
+
 // Activa o desactiva una suscripción según el valor de `active`
 export async function toggleSubscription(id: string, active: boolean) {
     const session = await auth()
