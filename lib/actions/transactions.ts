@@ -5,13 +5,30 @@ import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 import type { TransactionItem } from "@/types/prisma"
 
-// Devuelve todas las transacciones del usuario ordenadas de más reciente a más antigua
-export async function getTransactions(): Promise<TransactionItem[]> {
+export interface TransactionFilters {
+    type?: "INCOME" | "EXPENSE"
+    category?: string
+    dateFrom?: string
+    dateTo?: string
+}
+
+// Devuelve transacciones del usuario, opcionalmente filtradas por tipo, categoría y rango de fechas
+export async function getTransactions(filters?: TransactionFilters): Promise<TransactionItem[]> {
     const session = await auth()
     if (!session?.user?.id) return []
 
     return await prisma.transaction.findMany({
-        where: { userId: session.user.id },
+        where: {
+            userId: session.user.id,
+            ...(filters?.type && { type: filters.type }),
+            ...(filters?.category && { category: filters.category }),
+            ...((filters?.dateFrom || filters?.dateTo) && {
+                date: {
+                    ...(filters.dateFrom && { gte: new Date(filters.dateFrom) }),
+                    ...(filters.dateTo && { lte: new Date(filters.dateTo + "T23:59:59") }),
+                },
+            }),
+        },
         orderBy: { date: "desc" },
     })
 }

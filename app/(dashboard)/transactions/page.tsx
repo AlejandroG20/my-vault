@@ -1,10 +1,32 @@
-import { getTransactions } from "@/lib/actions/transactions";
-import TransactionForm from "@/components/sections/TransactionForm";
-import TransactionList from "@/components/sections/TransactionList";
+import { getTransactions } from "@/lib/actions/transactions"
+import TransactionForm from "@/components/sections/TransactionForm"
+import TransactionList from "@/components/sections/TransactionList"
+import TransactionFilters from "@/components/sections/TransactionFilters"
+import { Suspense } from "react"
 
-export default async function TransactionsPage() {
-  // Cargamos todas las transacciones del usuario desde el servidor
-  const transactions = await getTransactions();
+interface SearchParams {
+  type?: string
+  category?: string
+  dateFrom?: string
+  dateTo?: string
+}
+
+export default async function TransactionsPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>
+}) {
+  const params = await searchParams
+
+  // Normalizamos y pasamos solo valores válidos para evitar consultas incorrectas
+  const filters = {
+    type: params.type === "INCOME" || params.type === "EXPENSE" ? params.type : undefined,
+    category: params.category || undefined,
+    dateFrom: params.dateFrom || undefined,
+    dateTo: params.dateTo || undefined,
+  }
+
+  const transactions = await getTransactions(filters)
 
   return (
     <div className="flex flex-col gap-6">
@@ -19,8 +41,14 @@ export default async function TransactionsPage() {
 
       {/* Formulario para añadir una nueva transacción */}
       <TransactionForm />
-      {/* Lista de transacciones existentes ordenadas por fecha descendente */}
+
+      {/* Filtros: envueltos en Suspense porque usan useSearchParams */}
+      <Suspense>
+        <TransactionFilters />
+      </Suspense>
+
+      {/* Lista filtrada de transacciones */}
       <TransactionList transactions={transactions} />
     </div>
-  );
+  )
 }

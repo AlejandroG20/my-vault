@@ -64,14 +64,13 @@ export default function GoalForm({ goal }: GoalFormProps) {
 
           {/* Botón de borrado: solo visible cuando ya existe un objetivo */}
           {goal && (
-            <form action={deleteGoal}>
-              <button
-                type="submit"
-                className="w-9 h-9 rounded-lg flex items-center justify-center text-primary-300 hover:text-danger-500 hover:bg-danger-50 transition-colors cursor-pointer border border-primary-200"
-              >
-                <Trash2 size={14} />
-              </button>
-            </form>
+            <button
+              type="submit"
+              formAction={deleteGoal}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-primary-300 hover:text-danger-500 hover:bg-danger-50 transition-colors cursor-pointer border border-primary-200"
+            >
+              <Trash2 size={14} />
+            </button>
           )}
         </div>
       </form>
