@@ -74,12 +74,12 @@ export default function TransactionFilters() {
       </div>
 
       {/* Categoría + fechas en fila */}
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
         {/* Selector de categoría */}
         <select
           value={category}
           onChange={(e) => setParam("category", e.target.value)}
-          className="text-sm border border-primary-100 rounded-lg px-3 py-1.5 text-primary-700 bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 cursor-pointer"
+          className="w-full sm:w-auto text-sm border border-primary-100 rounded-lg px-3 py-1.5 text-primary-700 bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 cursor-pointer"
         >
           <option value="">Todas las categorías</option>
           {CATEGORIES.map((cat) => (
@@ -89,26 +89,29 @@ export default function TransactionFilters() {
           ))}
         </select>
 
-        {/* Fecha desde */}
-        <div className="flex items-center gap-1.5">
-          <label className="text-xs text-primary-400 whitespace-nowrap">Desde</label>
-          <input
-            type="date"
-            value={dateFrom}
-            onChange={(e) => setParam("dateFrom", e.target.value)}
-            className="text-sm border border-primary-100 rounded-lg px-3 py-1.5 text-primary-700 bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 cursor-pointer"
-          />
-        </div>
+        {/* Fechas: en fila en móvil también */}
+        <div className="flex flex-wrap gap-3">
+          {/* Fecha desde */}
+          <div className="flex items-center gap-1.5 flex-1 sm:flex-none">
+            <label className="text-xs text-primary-400 whitespace-nowrap">Desde</label>
+            <input
+              type="date"
+              value={dateFrom}
+              onChange={(e) => setParam("dateFrom", e.target.value)}
+              className="flex-1 sm:flex-none text-sm border border-primary-100 rounded-lg px-3 py-1.5 text-primary-700 bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 cursor-pointer"
+            />
+          </div>
 
-        {/* Fecha hasta */}
-        <div className="flex items-center gap-1.5">
-          <label className="text-xs text-primary-400 whitespace-nowrap">Hasta</label>
-          <input
-            type="date"
-            value={dateTo}
-            onChange={(e) => setParam("dateTo", e.target.value)}
-            className="text-sm border border-primary-100 rounded-lg px-3 py-1.5 text-primary-700 bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 cursor-pointer"
-          />
+          {/* Fecha hasta */}
+          <div className="flex items-center gap-1.5 flex-1 sm:flex-none">
+            <label className="text-xs text-primary-400 whitespace-nowrap">Hasta</label>
+            <input
+              type="date"
+              value={dateTo}
+              onChange={(e) => setParam("dateTo", e.target.value)}
+              className="flex-1 sm:flex-none text-sm border border-primary-100 rounded-lg px-3 py-1.5 text-primary-700 bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 cursor-pointer"
+            />
+          </div>
         </div>
       </div>
     </div>

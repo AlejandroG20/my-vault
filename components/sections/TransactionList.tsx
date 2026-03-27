@@ -40,15 +40,15 @@ export default function TransactionList({
             key={transaction.id}
             className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 gap-2"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 min-w-0">
               {/* Los ingresos mantienen TrendingUp verde — los gastos usan el icono de su categoría */}
               {transaction.type === "INCOME" ? (
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-success-50">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-success-50 shrink-0">
                   <TrendingUp size={14} className="text-success-600" />
                 </div>
               ) : (
                 <div
-                  className={`w-8 h-8 rounded-lg flex items-center justify-center ${config?.bg ?? "bg-primary-50"}`}
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${config?.bg ?? "bg-primary-50"}`}
                 >
                   <Icon
                     size={14}
@@ -57,13 +57,13 @@ export default function TransactionList({
                 </div>
               )}
 
-              <div>
-                <p className="text-sm font-medium text-primary-900">
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-primary-900 truncate">
                   {transaction.category}
                 </p>
                 {/* La descripción es opcional, solo se muestra si existe */}
                 {transaction.description && (
-                  <p className="text-xs text-primary-400">
+                  <p className="text-xs text-primary-400 truncate">
                     {transaction.description}
                   </p>
                 )}
