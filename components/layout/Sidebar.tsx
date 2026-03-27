@@ -23,9 +23,9 @@ const navigation = [
   { name: "Presupuesto", href: "/budgets", icon: Wallet },
 ];
 
-export default function Sidebar() {
-  // Obtenemos la ruta actual para marcar el ítem activo
+export default function Sidebar({ userName }: { userName?: string }) {
   const pathname = usePathname();
+  const vaultName = userName ? `${userName}'s Vault` : "My Vault";
 
   return (
     <>
@@ -34,7 +34,7 @@ export default function Sidebar() {
         {/* Logo / nombre de la app */}
         <div className="px-6 py-5 border-b border-primary-100">
           <h1 className="text-lg font-semibold font-heading text-primary-900">
-            My Vault
+            {vaultName}
           </h1>
         </div>
 

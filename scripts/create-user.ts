@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs"
 
 async function main() {
     // Credenciales del usuario a crear — cámbialas antes de ejecutar
+    const name = "Nombre"
     const email = "email"
     const password = "password"
 
@@ -14,12 +15,13 @@ async function main() {
     // Insertamos el usuario en la base de datos con la contraseña hasheada
     const user = await prisma.user.create({
         data: {
+            name,
             email,
             password: hashed,
         },
     })
 
-    console.log("Usuario creado:", user.email)
+    console.log("Usuario creado:", user.name, user.email)
 }
 
 // Ejecutamos el script y cerramos la conexión a la BD al terminar
