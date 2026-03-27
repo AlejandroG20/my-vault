@@ -20,7 +20,7 @@ export default async function TransactionsPage({
 
   // Normalizamos y pasamos solo valores válidos para evitar consultas incorrectas
   const filters = {
-    type: params.type === "INCOME" || params.type === "EXPENSE" ? params.type : undefined,
+    type: (params.type === "INCOME" || params.type === "EXPENSE" ? params.type : undefined) as "INCOME" | "EXPENSE" | undefined,
     category: params.category || undefined,
     dateFrom: params.dateFrom || undefined,
     dateTo: params.dateTo || undefined,
