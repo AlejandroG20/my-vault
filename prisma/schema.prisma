@@ -14,6 +14,18 @@ model User {
   transactions  Transaction[]
   subscriptions Subscription[]
   goal          Goal?
+  budgets       Budget[]
+}
+
+model Budget {
+  id        String   @id @default(cuid())
+  category  String
+  amount    Float
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, category])
 }
 
 model Transaction {

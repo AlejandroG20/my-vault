@@ -9,6 +9,7 @@ import {
   RefreshCcw,
   BarChart2,
   Target,
+  Wallet,
   LogOut,
 } from "lucide-react";
 
@@ -19,6 +20,7 @@ const navigation = [
   { name: "Suscripciones", href: "/subscriptions", icon: RefreshCcw },
   { name: "Estadísticas", href: "/stats", icon: BarChart2 },
   { name: "Objetivo", href: "/goal", icon: Target },
+  { name: "Presupuesto", href: "/budgets", icon: Wallet },
 ];
 
 export default function Sidebar() {
