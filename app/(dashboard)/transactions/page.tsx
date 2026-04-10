@@ -8,6 +8,7 @@ import InitialBalanceForm from "@/components/sections/InitialBalanceForm"
 import { Suspense } from "react"
 import { ArrowDownCircle, ArrowUpCircle, Wallet, ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
+import ExportButton from "@/components/sections/ExportButton"
 
 interface SearchParams {
   type?: string
@@ -77,13 +78,18 @@ export default async function TransactionsPage({
   return (
     <div className="flex flex-col gap-6">
       {/* Header */}
-      <div className="flex flex-col gap-1">
-        <h2 className="text-2xl font-bold font-heading text-primary-900">
-          Transacciones
-        </h2>
-        <p className="text-sm text-primary-400">
-          Registra y consulta todos tus movimientos financieros
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col gap-1">
+          <h2 className="text-2xl font-bold font-heading text-primary-900">
+            Transacciones
+          </h2>
+          <p className="text-sm text-primary-400">
+            Registra y consulta todos tus movimientos financieros
+          </p>
+        </div>
+        <Suspense>
+          <ExportButton />
+        </Suspense>
       </div>
 
       {/* Stats strip */}
