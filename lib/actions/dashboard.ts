@@ -11,22 +11,22 @@ export async function getDashboardData() {
 
     const userId = session.user.id
 
-    // Calculamos el rango de fechas del mes actual (primer y último día)
     const now = new Date()
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+    const startOfPrevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    const endOfPrevMonth = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59)
 
-    // Obtenemos usuario (para el saldo inicial), transacciones del mes y el objetivo
-    const [user, monthlyTransactions, allTransactions, goal] = await Promise.all([
+    const [user, monthlyTransactions, prevMonthTransactions, allTransactions, goal] = await Promise.all([
         prisma.user.findUnique({
             where: { id: userId },
             select: { initialBalance: true },
         }),
         prisma.transaction.findMany({
-            where: {
-                userId,
-                date: { gte: startOfMonth, lte: endOfMonth },
-            },
+            where: { userId, date: { gte: startOfMonth, lte: endOfMonth } },
+        }),
+        prisma.transaction.findMany({
+            where: { userId, date: { gte: startOfPrevMonth, lte: endOfPrevMonth } },
         }),
         prisma.transaction.findMany({
             where: { userId },
@@ -36,12 +36,19 @@ export async function getDashboardData() {
         }),
     ])
 
-    // Ingresos y gastos del mes actual (para las tarjetas de stats)
     const totalIncome = monthlyTransactions
         .filter((t) => t.type === "INCOME")
         .reduce((sum, t) => sum + t.amount, 0)
 
     const totalExpense = monthlyTransactions
+        .filter((t) => t.type === "EXPENSE")
+        .reduce((sum, t) => sum + t.amount, 0)
+
+    const prevIncome = prevMonthTransactions
+        .filter((t) => t.type === "INCOME")
+        .reduce((sum, t) => sum + t.amount, 0)
+
+    const prevExpense = prevMonthTransactions
         .filter((t) => t.type === "EXPENSE")
         .reduce((sum, t) => sum + t.amount, 0)
 
@@ -59,6 +66,8 @@ export async function getDashboardData() {
     return {
         totalIncome,
         totalExpense,
+        prevIncome,
+        prevExpense,
         balance,
         initialBalance: user?.initialBalance ?? 0,
         goal,

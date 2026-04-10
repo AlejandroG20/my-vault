@@ -4,12 +4,14 @@ import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 import type { TransactionItem } from "@/types/prisma"
+import { PAGE_SIZE } from "@/lib/constants"
 
 export interface TransactionFilters {
     type?: "INCOME" | "EXPENSE"
     category?: string
     dateFrom?: string
     dateTo?: string
+    page?: number
 }
 
 // Devuelve transacciones del usuario, opcionalmente filtradas por tipo, categoría y rango de fechas
@@ -17,7 +19,38 @@ export async function getTransactions(filters?: TransactionFilters): Promise<Tra
     const session = await auth()
     if (!session?.user?.id) return []
 
+    const where = {
+        userId: session.user.id,
+        ...(filters?.type && { type: filters.type }),
+        ...(filters?.category && { category: filters.category }),
+        ...((filters?.dateFrom || filters?.dateTo) && {
+            date: {
+                ...(filters.dateFrom && { gte: new Date(filters.dateFrom) }),
+                ...(filters.dateTo && { lte: new Date(filters.dateTo + "T23:59:59") }),
+            },
+        }),
+    }
+
+    if (filters?.page !== undefined) {
+        return await prisma.transaction.findMany({
+            where,
+            orderBy: { date: "desc" },
+            take: PAGE_SIZE,
+            skip: (filters.page - 1) * PAGE_SIZE,
+        })
+    }
+
     return await prisma.transaction.findMany({
+        where,
+        orderBy: { date: "desc" },
+    })
+}
+
+export async function countTransactions(filters?: Omit<TransactionFilters, "page">): Promise<number> {
+    const session = await auth()
+    if (!session?.user?.id) return 0
+
+    return await prisma.transaction.count({
         where: {
             userId: session.user.id,
             ...(filters?.type && { type: filters.type }),
@@ -29,7 +62,6 @@ export async function getTransactions(filters?: TransactionFilters): Promise<Tra
                 },
             }),
         },
-        orderBy: { date: "desc" },
     })
 }
 

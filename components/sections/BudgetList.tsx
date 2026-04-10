@@ -2,7 +2,7 @@
 
 import { deleteBudget } from "@/lib/actions/budgets"
 import { CATEGORY_CONFIG } from "@/lib/categories"
-import { Trash2 } from "lucide-react"
+import { Trash2, PiggyBank } from "lucide-react"
 
 interface BudgetWithSpent {
     id: string
@@ -30,10 +30,16 @@ function getStatusLabel(pct: number) {
 export default function BudgetList({ budgets }: BudgetListProps) {
     if (budgets.length === 0) {
         return (
-            <div className="bg-white rounded-xl border border-primary-100 p-8 text-center">
-                <p className="text-sm text-primary-400">
-                    No tienes presupuestos definidos. Añade uno para empezar a controlar tus gastos.
-                </p>
+            <div className="bg-white rounded-xl border border-primary-100 p-12 flex flex-col items-center gap-3 text-center shadow-sm">
+                <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center">
+                    <PiggyBank size={22} className="text-primary-300" />
+                </div>
+                <div>
+                    <p className="text-sm font-medium text-primary-500">Sin presupuestos</p>
+                    <p className="text-xs text-primary-300 mt-0.5">
+                        Fija un límite por categoría usando el formulario de la izquierda
+                    </p>
+                </div>
             </div>
         )
     }

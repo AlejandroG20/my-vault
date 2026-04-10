@@ -7,13 +7,15 @@ import { prisma } from "@/lib/prisma"
 
 // Devuelve los ingresos y gastos agrupados por mes (ej: "mar. 25").
 // Se usa para mostrar gráficos de barras comparando ingresos vs gastos mensuales.
-export async function getMonthlyStats(): Promise<{ month: string; income: number; expense: number }[]> {
+export async function getMonthlyStats(since?: Date): Promise<{ month: string; income: number; expense: number }[]> {
     const session = await auth()
     if (!session?.user?.id) return []
 
-    // Obtiene todas las transacciones del usuario ordenadas cronológicamente
     const transactions = await prisma.transaction.findMany({
-        where: { userId: session.user.id },
+        where: {
+            userId: session.user.id,
+            ...(since && { date: { gte: since } }),
+        },
         orderBy: { date: "asc" },
     })
 
@@ -48,15 +50,15 @@ export async function getMonthlyStats(): Promise<{ month: string; income: number
 
 // Devuelve el total gastado por categoría, ordenado de mayor a menor.
 // Se usa para mostrar gráficos de torta o barras de distribución de gastos.
-export async function getCategoryStats(): Promise<{ name: string; value: number }[]> {
+export async function getCategoryStats(since?: Date): Promise<{ name: string; value: number }[]> {
     const session = await auth()
     if (!session?.user?.id) return []
 
-    // Solo obtiene transacciones de tipo GASTO
     const transactions = await prisma.transaction.findMany({
         where: {
             userId: session.user.id,
             type: "EXPENSE",
+            ...(since && { date: { gte: since } }),
         },
     })
 
@@ -78,13 +80,15 @@ export async function getCategoryStats(): Promise<{ name: string; value: number 
 
 // Devuelve el balance acumulado a lo largo del tiempo, transacción por transacción.
 // Se usa para mostrar un gráfico de línea con la evolución del saldo.
-export async function getBalanceOverTime(): Promise<{ date: string; balance: number }[]> {
+export async function getBalanceOverTime(since?: Date): Promise<{ date: string; balance: number }[]> {
     const session = await auth()
     if (!session?.user?.id) return []
 
-    // Obtiene todas las transacciones ordenadas por fecha ascendente
     const transactions = await prisma.transaction.findMany({
-        where: { userId: session.user.id },
+        where: {
+            userId: session.user.id,
+            ...(since && { date: { gte: since } }),
+        },
         orderBy: { date: "asc" },
     })
 

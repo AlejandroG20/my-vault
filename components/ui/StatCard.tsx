@@ -1,10 +1,11 @@
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, TrendingUp, TrendingDown } from "lucide-react";
 
 interface StatCardProps {
   title: string;
   amount: number;
   icon: LucideIcon;
   variant?: "default" | "income" | "expense";
+  trend?: number; // % de cambio respecto al mes anterior
 }
 
 export default function StatCard({
@@ -12,6 +13,7 @@ export default function StatCard({
   amount,
   icon: Icon,
   variant = "default",
+  trend,
 }: StatCardProps) {
   // Color del importe según el tipo: balance neutro, ingreso (teal) o gasto (rose)
   const colors = {
@@ -50,6 +52,18 @@ export default function StatCard({
           currency: "EUR",
         })}
       </p>
+      {/* Comparativa con el mes anterior */}
+      {trend !== undefined && !isNaN(trend) && (
+        <div className={`flex items-center gap-1 mt-1.5 ${trend >= 0 ? "text-success-600" : "text-danger-500"}`}>
+          {trend >= 0
+            ? <TrendingUp size={11} />
+            : <TrendingDown size={11} />
+          }
+          <span className="text-xs font-medium">
+            {trend >= 0 ? "+" : ""}{trend.toFixed(1)}% vs mes ant.
+          </span>
+        </div>
+      )}
     </div>
   );
 }

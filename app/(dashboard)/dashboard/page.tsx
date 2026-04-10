@@ -1,8 +1,10 @@
 import { getDashboardData } from "@/lib/actions/dashboard";
 import { processSubscriptions } from "@/lib/actions/processSubscriptions";
 import { getUpcomingSubscriptions } from "@/lib/actions/subscriptions";
+import { getExceededBudgets } from "@/lib/actions/budgets";
 import StatCard from "@/components/ui/StatCard";
 import UpcomingSubscriptions from "@/components/sections/UpcomingSubscriptions";
+import ExceededBudgets from "@/components/sections/ExceededBudgets";
 import InitialBalanceForm from "@/components/sections/InitialBalanceForm";
 import { Wallet, TrendingUp, TrendingDown, Target } from "lucide-react";
 
@@ -10,16 +12,19 @@ export default async function DashboardPage() {
   // Procesa las suscripciones
   await processSubscriptions();
 
-  // Obtenemos los datos del mes actual desde el servidor
-  const data = await getDashboardData();
-  const upcomingSubscriptions = await getUpcomingSubscriptions(7);
-
-  console.log("Dashboard data:", data);
+  const [data, upcomingSubscriptions, exceededBudgets] = await Promise.all([
+    getDashboardData(),
+    getUpcomingSubscriptions(7),
+    getExceededBudgets(),
+  ]);
 
   // Si no hay sesión activa, no renderizamos nada
   if (!data) return null;
 
-  const { totalIncome, totalExpense, balance, initialBalance, goal } = data;
+  const { totalIncome, totalExpense, prevIncome, prevExpense, balance, initialBalance, goal } = data;
+
+  const incomeTrend = prevIncome > 0 ? ((totalIncome - prevIncome) / prevIncome) * 100 : undefined;
+  const expenseTrend = prevExpense > 0 ? ((totalExpense - prevExpense) / prevExpense) * 100 : undefined;
 
   // Calculamos el porcentaje de progreso hacia el objetivo (máximo 100%)
   const goalProgress = goal
@@ -56,14 +61,19 @@ export default async function DashboardPage() {
           amount={totalIncome}
           icon={TrendingUp}
           variant="income"
+          trend={incomeTrend}
         />
         <StatCard
           title="Gastos del Mes"
           amount={totalExpense}
           icon={TrendingDown}
           variant="expense"
+          trend={expenseTrend}
         />
       </div>
+
+      {/* Aviso de presupuestos superados o casi al límite */}
+      <ExceededBudgets budgets={exceededBudgets} />
 
       {/* Aviso de suscripciones próximas a cobrar */}
       <UpcomingSubscriptions subscriptions={upcomingSubscriptions} />

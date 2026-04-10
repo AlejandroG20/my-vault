@@ -2,7 +2,7 @@ import {
   deleteSubscription,
   toggleSubscription,
 } from "@/lib/actions/subscriptions";
-import { Trash2, RefreshCcw } from "lucide-react";
+import { Trash2, RefreshCcw, CalendarClock } from "lucide-react";
 import SubscriptionEditModal from "@/components/sections/SubscriptionEditModal";
 
 interface Subscription {
@@ -25,8 +25,16 @@ export default function SubscriptionList({
   // Estado vacío: mostramos un mensaje en lugar de una lista en blanco
   if (subscriptions.length === 0) {
     return (
-      <div className="bg-white rounded-xl border border-primary-100 p-8 text-center">
-        <p className="text-sm text-primary-300">No hay suscripciones todavía</p>
+      <div className="bg-white rounded-xl border border-primary-100 p-12 flex flex-col items-center gap-3 text-center shadow-sm">
+        <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center">
+          <CalendarClock size={22} className="text-primary-300" />
+        </div>
+        <div>
+          <p className="text-sm font-medium text-primary-500">Sin suscripciones</p>
+          <p className="text-xs text-primary-300 mt-0.5">
+            Añade tus gastos recurrentes usando el formulario de arriba
+          </p>
+        </div>
       </div>
     );
   }
