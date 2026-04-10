@@ -1,7 +1,9 @@
 import { getTransactions } from "@/lib/actions/transactions"
+import { getInitialBalance } from "@/lib/actions/user"
 import TransactionForm from "@/components/sections/TransactionForm"
 import TransactionList from "@/components/sections/TransactionList"
 import TransactionFilters from "@/components/sections/TransactionFilters"
+import InitialBalanceForm from "@/components/sections/InitialBalanceForm"
 import { Suspense } from "react"
 import { ArrowDownCircle, ArrowUpCircle, Wallet } from "lucide-react"
 
@@ -26,7 +28,11 @@ export default async function TransactionsPage({
     dateTo: params.dateTo || undefined,
   }
 
-  const transactions = await getTransactions(filters)
+  const [transactions, allTransactions, initialBalance] = await Promise.all([
+    getTransactions(filters),
+    getTransactions(),
+    getInitialBalance(),
+  ])
 
   const totalIncome = transactions
     .filter((t) => t.type === "INCOME")
@@ -36,7 +42,15 @@ export default async function TransactionsPage({
     .filter((t) => t.type === "EXPENSE")
     .reduce((sum, t) => sum + t.amount, 0)
 
-  const balance = totalIncome - totalExpense
+  const allTimeIncome = allTransactions
+    .filter((t) => t.type === "INCOME")
+    .reduce((sum, t) => sum + t.amount, 0)
+
+  const allTimeExpense = allTransactions
+    .filter((t) => t.type === "EXPENSE")
+    .reduce((sum, t) => sum + t.amount, 0)
+
+  const balance = initialBalance + allTimeIncome - allTimeExpense
 
   const fmt = (n: number) =>
     n.toLocaleString("es-ES", { style: "currency", currency: "EUR" })
@@ -115,6 +129,7 @@ export default async function TransactionsPage({
               {balance >= 0 ? "+" : ""}
               {fmt(balance)}
             </p>
+            <InitialBalanceForm initialBalance={initialBalance} />
           </div>
         </div>
       </div>

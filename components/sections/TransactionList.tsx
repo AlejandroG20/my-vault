@@ -122,7 +122,7 @@ export default function TransactionList({ transactions }: TransactionListProps) 
                 <form action={deleteTransaction.bind(null, transaction.id)}>
                   <button
                     type="submit"
-                    className="w-7 h-7 rounded-lg flex items-center justify-center text-primary-200 hover:text-danger-500 hover:bg-danger-50 opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
+                    className="w-7 h-7 rounded-lg flex items-center justify-center text-primary-200 hover:text-danger-500 hover:bg-danger-50 transition-all cursor-pointer"
                   >
                     <Trash2 size={13} />
                   </button>

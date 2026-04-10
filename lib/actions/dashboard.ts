@@ -16,38 +16,51 @@ export async function getDashboardData() {
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
 
-    // Obtenemos todas las transacciones del usuario en el mes actual
-    const transactions: TransactionItem[] = await prisma.transaction.findMany({
-        where: {
-            userId,
-            date: {
-                gte: startOfMonth,
-                lte: endOfMonth,
+    // Obtenemos usuario (para el saldo inicial), transacciones del mes y el objetivo
+    const [user, monthlyTransactions, allTransactions, goal] = await Promise.all([
+        prisma.user.findUnique({
+            where: { id: userId },
+            select: { initialBalance: true },
+        }),
+        prisma.transaction.findMany({
+            where: {
+                userId,
+                date: { gte: startOfMonth, lte: endOfMonth },
             },
-        },
-    })
+        }),
+        prisma.transaction.findMany({
+            where: { userId },
+        }),
+        prisma.goal.findUnique({
+            where: { userId },
+        }),
+    ])
 
-    // Obtenemos el objetivo de ahorro del usuario (si tiene uno definido)
-    const goal = await prisma.goal.findUnique({
-        where: { userId },
-    })
-
-    // Sumamos los ingresos y gastos por separado filtrando por tipo
-    const totalIncome = transactions
+    // Ingresos y gastos del mes actual (para las tarjetas de stats)
+    const totalIncome = monthlyTransactions
         .filter((t) => t.type === "INCOME")
         .reduce((sum, t) => sum + t.amount, 0)
 
-    const totalExpense = transactions
+    const totalExpense = monthlyTransactions
         .filter((t) => t.type === "EXPENSE")
         .reduce((sum, t) => sum + t.amount, 0)
 
-    // El balance es la diferencia entre ingresos y gastos del mes
-    const balance = totalIncome - totalExpense
+    // Balance real = saldo inicial + todos los ingresos históricos - todos los gastos históricos
+    const allTimeIncome = allTransactions
+        .filter((t) => t.type === "INCOME")
+        .reduce((sum, t) => sum + t.amount, 0)
+
+    const allTimeExpense = allTransactions
+        .filter((t) => t.type === "EXPENSE")
+        .reduce((sum, t) => sum + t.amount, 0)
+
+    const balance = (user?.initialBalance ?? 0) + allTimeIncome - allTimeExpense
 
     return {
         totalIncome,
         totalExpense,
         balance,
+        initialBalance: user?.initialBalance ?? 0,
         goal,
     }
 }

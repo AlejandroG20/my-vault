@@ -3,6 +3,7 @@ import { processSubscriptions } from "@/lib/actions/processSubscriptions";
 import { getUpcomingSubscriptions } from "@/lib/actions/subscriptions";
 import StatCard from "@/components/ui/StatCard";
 import UpcomingSubscriptions from "@/components/sections/UpcomingSubscriptions";
+import InitialBalanceForm from "@/components/sections/InitialBalanceForm";
 import { Wallet, TrendingUp, TrendingDown, Target } from "lucide-react";
 
 export default async function DashboardPage() {
@@ -18,7 +19,7 @@ export default async function DashboardPage() {
   // Si no hay sesión activa, no renderizamos nada
   if (!data) return null;
 
-  const { totalIncome, totalExpense, balance, goal } = data;
+  const { totalIncome, totalExpense, balance, initialBalance, goal } = data;
 
   // Calculamos el porcentaje de progreso hacia el objetivo (máximo 100%)
   const goalProgress = goal
@@ -41,22 +42,23 @@ export default async function DashboardPage() {
 
       {/* Tarjetas de resumen: balance, ingresos y gastos del mes */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        <div className="col-span-2 sm:col-span-1">
+        <div className="col-span-2 sm:col-span-1 flex flex-col">
           <StatCard
-            title="Balance"
+            title="Balance Total"
             amount={balance}
             icon={Wallet}
             variant="default"
           />
+          <InitialBalanceForm initialBalance={initialBalance} />
         </div>
         <StatCard
-          title="Ingresos"
+          title="Ingresos del Mes"
           amount={totalIncome}
           icon={TrendingUp}
           variant="income"
         />
         <StatCard
-          title="Gastos"
+          title="Gastos del Mes"
           amount={totalExpense}
           icon={TrendingDown}
           variant="expense"
