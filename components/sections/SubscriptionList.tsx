@@ -3,6 +3,7 @@ import {
   toggleSubscription,
 } from "@/lib/actions/subscriptions";
 import { Trash2, RefreshCcw } from "lucide-react";
+import SubscriptionEditModal from "@/components/sections/SubscriptionEditModal";
 
 interface Subscription {
   id: string;
@@ -90,6 +91,8 @@ export default function SubscriptionList({
             </form>
 
             {/* Botón de borrado con confirmación visual al hacer hover */}
+            <SubscriptionEditModal subscription={sub} />
+
             <form action={deleteSubscription.bind(null, sub.id)}>
               <button
                 type="submit"

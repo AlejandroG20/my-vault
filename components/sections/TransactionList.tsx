@@ -1,6 +1,7 @@
 import { deleteTransaction } from "@/lib/actions/transactions";
 import { Trash2, TrendingUp, ReceiptText } from "lucide-react";
 import { CATEGORY_CONFIG } from "@/lib/categories";
+import TransactionEditModal from "@/components/sections/TransactionEditModal";
 
 interface Transaction {
   id: string;
@@ -118,6 +119,8 @@ export default function TransactionList({ transactions }: TransactionListProps) 
                     </p>
                   )}
                 </div>
+
+                <TransactionEditModal transaction={transaction} />
 
                 <form action={deleteTransaction.bind(null, transaction.id)}>
                   <button

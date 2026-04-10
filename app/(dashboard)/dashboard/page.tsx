@@ -41,8 +41,8 @@ export default async function DashboardPage() {
       </div>
 
       {/* Tarjetas de resumen: balance, ingresos y gastos del mes */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        <div className="col-span-2 sm:col-span-1 flex flex-col">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="flex flex-col">
           <StatCard
             title="Balance Total"
             amount={balance}

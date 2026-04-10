@@ -97,6 +97,27 @@ export async function getUpcomingSubscriptions(daysAhead: number = 7) {
         .sort((a, b) => a.daysUntil - b.daysUntil)
 }
 
+// Actualiza los campos editables de una suscripción existente
+export async function updateSubscription(id: string, formData: FormData) {
+    const session = await auth()
+    if (!session?.user?.id) return
+
+    const name = formData.get("name") as string
+    const amount = parseFloat(formData.get("amount") as string)
+    const dayOfMonth = parseInt(formData.get("dayOfMonth") as string)
+    const category = formData.get("category") as string
+
+    if (!name || !amount || !dayOfMonth || !category) return
+
+    await prisma.subscription.update({
+        where: { id, userId: session.user.id },
+        data: { name, amount, dayOfMonth, category },
+    })
+
+    revalidatePath("/subscriptions")
+    revalidatePath("/dashboard")
+}
+
 // Activa o desactiva una suscripción según el valor de `active`
 export async function toggleSubscription(id: string, active: boolean) {
     const session = await auth()

@@ -64,6 +64,34 @@ export async function createTransaction(formData: FormData) {
     revalidatePath("/dashboard")
 }
 
+// Actualiza los campos de una transacción existente
+export async function updateTransaction(id: string, formData: FormData) {
+    const session = await auth()
+    if (!session?.user?.id) return
+
+    const amount = parseFloat(formData.get("amount") as string)
+    const type = formData.get("type") as "INCOME" | "EXPENSE"
+    const category = formData.get("category") as string
+    const description = formData.get("description") as string
+    const date = formData.get("date") as string
+
+    if (!amount || !type || !category || !date) return
+
+    await prisma.transaction.update({
+        where: { id, userId: session.user.id },
+        data: {
+            amount,
+            type,
+            category,
+            description: description || null,
+            date: new Date(date),
+        },
+    })
+
+    revalidatePath("/transactions")
+    revalidatePath("/dashboard")
+}
+
 // Elimina una transacción por id, asegurándonos de que pertenece al usuario en sesión
 export async function deleteTransaction(id: string) {
     const session = await auth()
