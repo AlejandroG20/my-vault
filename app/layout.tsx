@@ -16,6 +16,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "My Vault",
   description: "Contabilidad",
+  icons: {
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({
