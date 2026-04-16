@@ -6,6 +6,7 @@ import StatCard from "@/components/ui/StatCard";
 import UpcomingSubscriptions from "@/components/sections/UpcomingSubscriptions";
 import ExceededBudgets from "@/components/sections/ExceededBudgets";
 import InitialBalanceForm from "@/components/sections/InitialBalanceForm";
+import TelegramReportButton from "@/components/ui/TelegramReportButton";
 import { Wallet, TrendingUp, TrendingDown, Target } from "lucide-react";
 
 export default async function DashboardPage() {
@@ -33,16 +34,19 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h2 className="text-2xl font-bold font-heading text-primary-900">Dashboard</h2>
-        {/* Mostramos el mes y año actual en español */}
-        <p className="text-sm text-primary-400 mt-1">
-          Resumen de{" "}
-          {new Date().toLocaleString("es-ES", {
-            month: "long",
-            year: "numeric",
-          })}
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-bold font-heading text-primary-900">Dashboard</h2>
+          {/* Mostramos el mes y año actual en español */}
+          <p className="text-sm text-primary-400 mt-1">
+            Resumen de{" "}
+            {new Date().toLocaleString("es-ES", {
+              month: "long",
+              year: "numeric",
+            })}
+          </p>
+        </div>
+        <TelegramReportButton />
       </div>
 
       {/* Tarjetas de resumen: balance, ingresos y gastos del mes */}
