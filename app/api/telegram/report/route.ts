@@ -3,6 +3,43 @@ import { prisma } from "@/lib/prisma"
 import { sendTelegramMessage } from "@/lib/telegram"
 import { NextRequest, NextResponse } from "next/server"
 
+/**
+ * GET /api/telegram/report
+ * Llamado por Vercel Cron los días 28-31 a las 20:00.
+ * Solo envía el informe si hoy es el último día real del mes.
+ */
+export async function GET(req: NextRequest) {
+    const cronSecret = process.env.CRON_SECRET
+    const authHeader = req.headers.get("authorization")
+
+    if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+        return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+    }
+
+    // Verifica que hoy es el último día del mes
+    const now = new Date()
+    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+    const isLastDay = tomorrow.getMonth() !== now.getMonth()
+
+    if (!isLastDay) {
+        return NextResponse.json({ ok: false, message: "No es el último día del mes, omitido" })
+    }
+
+    // Reutiliza la lógica del POST buscando el usuario de la app
+    const user = await prisma.user.findFirst({ select: { id: true } })
+    if (!user) {
+        return NextResponse.json({ error: "No hay usuarios registrados" }, { status: 404 })
+    }
+
+    // Llama al POST internamente pasando el cron secret
+    const internalReq = new NextRequest(req.url, {
+        method: "POST",
+        headers: { authorization: `Bearer ${cronSecret}` },
+    })
+
+    return POST(internalReq)
+}
+
 /** Escapa caracteres especiales de HTML para usar en parse_mode: "HTML" de Telegram */
 function h(text: string | null | undefined): string {
     if (!text) return ""
